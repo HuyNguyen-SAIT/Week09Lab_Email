@@ -1,6 +1,6 @@
 package services;
 
-import database.UserDB;
+import dataaccess.UserDB;
 import models.User;
 import java.util.List;
 
@@ -18,6 +18,11 @@ public class UserService {
 
     public List<User> getAll() throws Exception {
         return userDB.getAll();
+    }
+    
+    public User getByUUID(String uuid) throws Exception {
+        
+    return userDB.getByUUID(uuid);    
     }
 
     public int update(String username, String password, String firstname, String lastname, String email) throws Exception {

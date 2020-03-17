@@ -15,7 +15,7 @@ CREATE TABLE `users`(
     firstname VARCHAR(20), 
     lastname VARCHAR(20), 
     email VARCHAR(40), 
-
+    resetPasswordUUID VARCHAR(50) NOT NULL AUTO_INCREMENT,
     `role` INT(11) NOT NULL,
     PRIMARY KEY (username),
     KEY `FK_Role_User` (`role`),

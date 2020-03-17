@@ -19,4 +19,5 @@
             <input type="submit" value="Submit">
         </form>
     </body>
+    <a href="/reset">Forget password</a>
 </html>
