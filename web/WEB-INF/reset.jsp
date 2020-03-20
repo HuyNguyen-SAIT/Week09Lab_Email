@@ -14,9 +14,9 @@
     <body>
         <h1>Reset Password</h1>
         <p>Please enter your email address to reset your password</p>
-        <form>
+        <form action="reset" method="POST">
             
-            Email Address: <input type="text" value="resetEmail">
+            Email Address: <input type="text" name="resetEmail">
             <input type="submit" value="Submit">
         </form>
     </body>
