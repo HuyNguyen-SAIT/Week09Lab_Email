@@ -6,22 +6,14 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import mail.Mail;
-import org.apache.catalina.ant.SessionsTask;
-import services.GmailService;
 
 /**
  *
@@ -84,16 +76,13 @@ public class ResetPasswordServet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String toEmail = request.getParameter("resetEmail");
-        //Mail mail = new Mail();
-        GmailService gs = new GmailService();
-        try {
-            gs.sendMail(toEmail, "Hello world", "HELLO WORLD", true);
-            //Session session = new Session();
-            //mail.sendHTMLEmail("abc@edu.sait.ca", "123password", toEmail, "HEllO WORLD", "<h1>Hello world</h1>");
-            //Message message = new MimeMessage(session);
-        } catch (MessagingException | NamingException ex) {
-            Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //gs.sendMail(toEmail, "HELLO", path, tags);
+        Mail mail = new Mail();
+        
+        //Session session = new Session();
+        mail.sendHTMLEmail("abc@edu.sait.ca", "123password", toEmail, "HEllO WORLD", "<h1>Hello world</h1>");
+        //Message message = new MimeMessage(session);
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         
     }
 
