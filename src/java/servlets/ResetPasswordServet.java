@@ -66,7 +66,16 @@ public class ResetPasswordServet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //sprocessRequest(request, response);
-        getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if(action.equals("forget"))
+        {
+            getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
+        }
+        else
+        {
+            getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
+        
+        }
     }
 
     /**
@@ -111,7 +120,7 @@ public class ResetPasswordServet extends HttpServlet {
                 tags.put("firstname", user.getFirstname());
                 tags.put("lastname", user.getLastname());
                 tags.put("username", user.getUsername());
-                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF") ));
+                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF/resetNewPassword.jsp") ));
                 GmailService.sendMail(toEmail, subject, template, tags);
                 request.setAttribute("error", "Password recovery email sent successfully!");
             }
@@ -136,6 +145,8 @@ public class ResetPasswordServet extends HttpServlet {
             try {
                 user = udb.getUser((String)session.getAttribute("username"));
                 ac.changePassword(user.getResetPasswordUUID(), newPassword);
+                
+                request.setAttribute("error", "Password updated successfully!");
             } catch (NotesDBException ex) {
                 Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
             }

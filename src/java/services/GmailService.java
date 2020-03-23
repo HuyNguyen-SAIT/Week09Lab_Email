@@ -36,6 +36,7 @@ public class GmailService {
             // replace all heart tags with values
             for(String tag : tags.keySet()) {
                 body = body.replace("%" + tag + "%", tags.get(tag));
+                
             }
             
             // send email

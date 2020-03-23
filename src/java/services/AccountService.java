@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
+import servlets.ResetPasswordServet;
 import sun.util.logging.PlatformLogger;
 
 /**
@@ -46,15 +47,17 @@ public class AccountService {
     }
     public boolean changePassword(String uuid, String password) {
         UserService us = new UserService();
+        UserDB udb = new UserDB();
         try {
-            User user = us.getByUUID(uuid);
+            User user = udb.getByUUID(uuid);
             user.setPassword(password);
             user.setResetPasswordUUID(null);
-            UserDB ur = new UserDB ();
-            ur.update(user);
+            
+            udb.update(user);
             return true;
 
-        } catch (Exception ex) {
+        } catch (NotesDBException ex) {
+            Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

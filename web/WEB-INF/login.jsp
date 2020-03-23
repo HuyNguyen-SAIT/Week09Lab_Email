@@ -19,6 +19,6 @@
             <input type="submit" value="Submit">
         </form>
     </body>
-    <a href="reset">Forget password</a>
+    <a href="reset?action=forget">Forget password</a>
     <h2>${error}</h2>
 </html>
