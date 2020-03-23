@@ -20,4 +20,5 @@
         </form>
     </body>
     <a href="reset">Forget password</a>
+    <h2>${error}</h2>
 </html>

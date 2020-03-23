@@ -5,15 +5,22 @@
  */
 package servlets;
 
+import dataaccess.NotesDBException;
+import dataaccess.UserDB;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mail.Mail;
+import models.User;
+import services.GmailService;
 
 /**
  *
@@ -75,12 +82,37 @@ public class ResetPasswordServet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String toEmail = request.getParameter("resetEmail");
-        //gs.sendMail(toEmail, "HELLO", path, tags);
-        Mail mail = new Mail();
-        
+                UserDB udb = new UserDB();
+                String toEmail = request.getParameter("resetEmail");
+                User user = null;
+        try {
+            List<User> allUsers = udb.getAll();
+            for(User a: allUsers)
+            {
+                if(a.getEmail().equals(toEmail))
+                {
+                    user = a;
+                    break;
+                }
+            }
+                
+                String subject = "Reset password";
+                String template = getServletContext().getRealPath("/WEB-INF") + "/emailtemplates/login.html";
+                HashMap<String, String> tags = new HashMap<>();
+                tags.put("firstname", user.getFirstname());
+                tags.put("lastname", user.getLastname());
+                tags.put("username", user.getUsername());
+                tags.put("link", request.getRequestURL().toString());
+                
+                GmailService.sendMail(toEmail, subject, template, tags);
+        } catch (NotesDBException ex) {
+            Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+                
+        //Mail mail = new Mail();
         //Session session = new Session();
-        mail.sendHTMLEmail("abc@edu.sait.ca", "123password", toEmail, "HEllO WORLD", "<h1>Hello world</h1>");
+        //mail.sendHTMLEmail("abc@gmail.com", "123password", toEmail, "HEllO WORLD", "<h1>Hello world</h1>");
         //Message message = new MimeMessage(session);
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         

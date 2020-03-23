@@ -38,7 +38,7 @@ public class Mail {
             String host = "smtp.gmail.com";
             props.put("mail.transport.protocol", "smtps");
             props.put("mail.smtps.host", host);
-            props.put("mail.smtps.port", 465);
+            props.put("mail.smtps.port", "587");
             props.put("mail.smtps.auth", "true");
             props.put("mail.smtps.quitwait", "false");
             //props.put("mail.smtps.ssl.checkserveridentity", "false");

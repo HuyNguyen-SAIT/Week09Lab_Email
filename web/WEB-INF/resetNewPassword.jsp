@@ -13,8 +13,7 @@
     </head>
     <body>
         <h1>Enter a new password</h1>
-        <form method="post" action="">
-            
+        <form method="post" action="reset">
             <input type="text" required name="newPassword"><br>
             <input type="submit" value="Submit">
         </form>

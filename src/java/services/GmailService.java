@@ -2,8 +2,8 @@ package services;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -41,7 +41,7 @@ public class GmailService {
             // send email
             sendMail(email, subject, body, true);
             
-        } catch (Exception ex) {
+        } catch (IOException | MessagingException | NamingException ex) {
             Logger.getLogger(GmailService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -56,9 +56,12 @@ public class GmailService {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtps");
         props.put("mail.smtps.host", "smtp.gmail.com");
-        props.put("mail.smtps.port", 465);
+        props.put("mail.smtps.port", "465");
+        //props.put("mail.smtp.starttls.enable","true" );
         props.put("mail.smtps.auth", "true");
         props.put("mail.smtps.quitwait", "false");
+        //props.put("mail.smtp.connectiontimeout", "1000");
+        //props.put("mail.smtp.timeout", "1000");
         Session session = Session.getDefaultInstance(props);
         session.setDebug(true);
         
@@ -72,7 +75,7 @@ public class GmailService {
         }
         
         // address the message
-        Address fromAddress = new InternetAddress(username);
+       //Address fromAddress = new InternetAddress(username);
         Address toAddress = new InternetAddress(to);
         //message.setFrom("cprg352@sait.ca");
         message.setRecipient(Message.RecipientType.TO, toAddress);
