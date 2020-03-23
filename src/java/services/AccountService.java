@@ -38,11 +38,11 @@ public class AccountService {
 
         return null;
     }
-    public void resetPassword(String email, String path, String url)
+    public String resetPassword(String url)
     {
         String uuid = UUID.randomUUID().toString();
-
         String link = url + "?uuid=" + uuid;
+        return link;
     }
     public boolean changePassword(String uuid, String password) {
         UserService us = new UserService();
@@ -53,7 +53,6 @@ public class AccountService {
             UserDB ur = new UserDB ();
             ur.update(user);
             return true;
-
 
         } catch (Exception ex) {
             return false;

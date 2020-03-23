@@ -16,6 +16,7 @@
         <form method="post" action="reset">
             <input type="text" required name="newPassword"><br>
             <input type="submit" value="Submit">
+            <input type="hidden" name="action" value="np">
         </form>
     </body>
 </html>

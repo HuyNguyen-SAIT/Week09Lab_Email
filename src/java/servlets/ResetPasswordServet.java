@@ -12,14 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mail.Mail;
+import javax.servlet.http.HttpSession;
 import models.User;
+import services.AccountService;
 import services.GmailService;
 
 /**
@@ -81,20 +80,30 @@ public class ResetPasswordServet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         //processRequest(request, response);
-                UserDB udb = new UserDB();
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        UserDB udb = new UserDB();
+        AccountService ac = new AccountService();
+        User user = null;
+        if(action.equals("recoveryemail"))
+        {
                 String toEmail = request.getParameter("resetEmail");
-                User user = null;
+                
         try {
             List<User> allUsers = udb.getAll();
             for(User a: allUsers)
             {
-                if(a.getEmail().equals(toEmail))
+                if(a.getEmail().equals("cprg352+"+toEmail))
                 {
                     user = a;
+                    session.setAttribute("username", user.getUsername());
                     break;
                 }
             }
+            if(user != null)
+            {
                 
                 String subject = "Reset password";
                 String template = getServletContext().getRealPath("/WEB-INF") + "/emailtemplates/login.html";
@@ -102,20 +111,38 @@ public class ResetPasswordServet extends HttpServlet {
                 tags.put("firstname", user.getFirstname());
                 tags.put("lastname", user.getLastname());
                 tags.put("username", user.getUsername());
-                tags.put("link", request.getRequestURL().toString());
-                
+                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF") ));
                 GmailService.sendMail(toEmail, subject, template, tags);
-        } catch (NotesDBException ex) {
+                request.setAttribute("error", "Password recovery email sent successfully!");
+            }
+            else
+            {
+                request.setAttribute("error", "Wrong email!");
+                getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
+            }
+        }catch (NotesDBException ex) {
             Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                
-                
+        }      
         //Mail mail = new Mail();
         //Session session = new Session();
         //mail.sendHTMLEmail("abc@gmail.com", "123password", toEmail, "HEllO WORLD", "<h1>Hello world</h1>");
         //Message message = new MimeMessage(session);
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         
+        }
+        else
+        {
+            String newPassword = request.getParameter("newPassword");
+            
+            try {
+                user = udb.getUser((String)session.getAttribute("username"));
+                ac.changePassword(user.getResetPasswordUUID(), newPassword);
+            } catch (NotesDBException ex) {
+                Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
     /**

@@ -12,12 +12,15 @@
         <title>Reset Password</title>
     </head>
     <body>
+        <a href="login">Back</a>
         <h1>Reset Password</h1>
         <p>Please enter your email address to reset your password</p>
         <form action="reset" method="POST">
             
-            Email Address: <input type="text" name="resetEmail">
+            Email Address: <input type="text" required name="resetEmail">
             <input type="submit" value="Submit">
+            <input type="hidden" name="action" value="recoveryemail">
         </form>
+        <h2>${error}</h2>
     </body>
 </html>

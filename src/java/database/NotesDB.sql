@@ -41,7 +41,7 @@ INSERT INTO `roles` VALUES (2,'regular user');
 INSERT INTO `users` VALUES ('admin', 'password', '', '', 'cprg352+admin@gmail.com', 1,1);
 INSERT INTO `users` VALUES ('admin2', 'password', 'Admin2', 'Admin2', 'cprg352+admin2@gmail.com', 2,1);
 INSERT INTO `users` VALUES ('admin3', 'password', 'Admin3', 'Admin3', 'cprg352+admin3@gmail.com', 3,1);
-INSERT INTO `users` VALUES ('anne', 'password', 'Anne', 'Annie', 'cprg352+anne@gmail.com', 4,2);
+INSERT INTO `users` VALUES ('anne', 'password', 'Anne', 'Annie', 'cprg352+huyquannguyen1098@gmail.com', 4,2);
 INSERT INTO `users` VALUES ('barb', 'password', 'Barb', 'Barker', 'cprg352+barb@gmail.com', 5,2);
 INSERT INTO `users` VALUES ('carl', 'password', 'Carl', 'Carlson', 'cprg352+carl@gmail.com', 6,2);
 
