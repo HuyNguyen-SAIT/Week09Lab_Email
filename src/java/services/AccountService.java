@@ -45,17 +45,23 @@ public class AccountService {
         String link = url + "?uuid=" + uuid;
         return link;
     }
-    public boolean changePassword(int uuid, String password) {
+    public boolean changePassword(String uuid, String password) {
         UserService us = new UserService();
         UserDB udb = new UserDB();
         try {
             User user = udb.getByUUID(uuid);
+            if(user == null)
+            {
+               return false; 
+            }
+            else
+            {   
             user.setPassword(password);
-            user.setResetPasswordUUID(0);
+            user.setResetPasswordUUID(null);
             
             udb.update(user);
             return true;
-
+            }
         } catch (NotesDBException ex) {
             Logger.getLogger(AccountService.class.getName()).log(Level.SEVERE, null, ex);
             return false;

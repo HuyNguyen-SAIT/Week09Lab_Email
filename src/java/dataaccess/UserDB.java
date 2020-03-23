@@ -1,11 +1,6 @@
 package dataaccess;
 
 import models.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,22 +84,29 @@ public class UserDB {
         }
     }
 
-    public User getByUUID(int uuid) {
+    public User getByUUID(String uuid) {
          EntityManager em = DBUtil.getEmFactory().createEntityManager();
-         List<User> users = null;
+         List<User> users;
          User user = null;
+         if(uuid==null)
+         {
+             return user;
+         }
+         else
+         {
          try {
             users = em.createNamedQuery("User.findAll", User.class).getResultList();
             for(User a: users)
             {
-                if(a.getResetPasswordUUID() == uuid)
+                if(a.getResetPasswordUUID().equals(uuid))
                 {
                     user =a;
                 }
             }
-            return user;                
+           return user;                
         } finally {
             em.close();
+        }
         }
     }
 }

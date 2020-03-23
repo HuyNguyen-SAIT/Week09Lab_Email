@@ -106,9 +106,17 @@ public class ResetPasswordServet extends HttpServlet {
             {
                 if(a.getEmail().equals("cprg352+"+toEmail))
                 {
+                    if(a.getResetPasswordUUID()!= null)
+                    {
                     user = a;
                     session.setAttribute("username", user.getUsername());
                     break;
+                    }
+                    else
+                    {
+                        request.setAttribute("error", "Can only change password once!");
+                        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+                    }
                 }
             }
             if(user != null)
@@ -120,7 +128,7 @@ public class ResetPasswordServet extends HttpServlet {
                 tags.put("firstname", user.getFirstname());
                 tags.put("lastname", user.getLastname());
                 tags.put("username", user.getUsername());
-                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF/resetNewPassword.jsp") ));
+                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF/resetNewPassword.jsp")));
                 GmailService.sendMail(toEmail, subject, template, tags);
                 request.setAttribute("error", "Password recovery email sent successfully!");
             }
@@ -150,8 +158,6 @@ public class ResetPasswordServet extends HttpServlet {
             } catch (NotesDBException ex) {
                 Logger.getLogger(ResetPasswordServet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
         }
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
