@@ -89,11 +89,20 @@ public class UserDB {
         }
     }
 
-    public User getByUUID(String uuid) {
+    public User getByUUID(int uuid) {
          EntityManager em = DBUtil.getEmFactory().createEntityManager();
+         List<User> users = null;
+         User user = null;
          try {
-            List<User> users = em.createNamedQuery("User.findByResetPasswordUUID", User.class).getResultList();
-            return users.get(0);                
+            users = em.createNamedQuery("User.findAll", User.class).getResultList();
+            for(User a: users)
+            {
+                if(a.getResetPasswordUUID() == uuid)
+                {
+                    user =a;
+                }
+            }
+            return user;                
         } finally {
             em.close();
         }

@@ -6,9 +6,7 @@
 package models;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,10 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,24 +49,29 @@ public class User implements Serializable {
     private String lastname;
     @Column(name = "email")
     private String email;
-    @Column(name = "ResetPasswordUUID")
-    private String resetPasswordUUID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    private List<Note> noteList;
+    @Basic(optional = false)
+    @Column(name = "resetPasswordUUID")
+    private int resetPasswordUUID;
     @JoinColumn(name = "role", referencedColumnName = "roleid")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Role role;
 
     public User() {
     }
+    
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public User(String username) {
         this.username = username;
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, int resetPasswordUUID) {
         this.username = username;
         this.password = password;
+        this.resetPasswordUUID = resetPasswordUUID;
     }
 
     public String getUsername() {
@@ -113,21 +114,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getResetPasswordUUID() {
+    public int getResetPasswordUUID() {
         return resetPasswordUUID;
     }
 
-    public void setResetPasswordUUID(String resetPasswordUUID) {
+    public void setResetPasswordUUID(int resetPasswordUUID) {
         this.resetPasswordUUID = resetPasswordUUID;
-    }
-
-    @XmlTransient
-    public List<Note> getNoteList() {
-        return noteList;
-    }
-
-    public void setNoteList(List<Note> noteList) {
-        this.noteList = noteList;
     }
 
     public Role getRole() {

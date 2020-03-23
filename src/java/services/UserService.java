@@ -20,7 +20,7 @@ public class UserService {
         return userDB.getAll();
     }
     
-    public User getByUUID(String uuid) throws Exception {
+    public User getByUUID(int uuid) throws Exception {
         
     return userDB.getByUUID(uuid);    
     }

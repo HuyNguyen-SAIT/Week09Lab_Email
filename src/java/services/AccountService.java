@@ -45,13 +45,13 @@ public class AccountService {
         String link = url + "?uuid=" + uuid;
         return link;
     }
-    public boolean changePassword(String uuid, String password) {
+    public boolean changePassword(int uuid, String password) {
         UserService us = new UserService();
         UserDB udb = new UserDB();
         try {
             User user = udb.getByUUID(uuid);
             user.setPassword(password);
-            user.setResetPasswordUUID(null);
+            user.setResetPasswordUUID(0);
             
             udb.update(user);
             return true;
