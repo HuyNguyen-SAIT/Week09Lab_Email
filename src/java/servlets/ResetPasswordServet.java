@@ -128,7 +128,7 @@ public class ResetPasswordServet extends HttpServlet {
                 tags.put("firstname", user.getFirstname());
                 tags.put("lastname", user.getLastname());
                 tags.put("username", user.getUsername());
-                tags.put("link", ac.resetPassword(getServletContext().getRealPath("/WEB-INF/resetNewPassword.jsp")));
+                tags.put("link", ac.resetPassword(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/reset?action=new"));
                 GmailService.sendMail(toEmail, subject, template, tags);
                 request.setAttribute("error", "Password recovery email sent successfully!");
             }

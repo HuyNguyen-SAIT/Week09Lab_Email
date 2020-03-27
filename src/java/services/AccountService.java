@@ -42,7 +42,7 @@ public class AccountService {
     public String resetPassword(String url)
     {
         String uuid = UUID.randomUUID().toString();
-        String link = url + "?uuid=" + uuid;
+        String link = url + "&uuid=" + uuid;
         return link;
     }
     public boolean changePassword(String uuid, String password) {

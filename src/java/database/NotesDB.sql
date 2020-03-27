@@ -39,7 +39,7 @@ CREATE TABLE `notes` (
 INSERT INTO `roles` VALUES (1,'admin');
 INSERT INTO `roles` VALUES (2,'regular user');
 
-INSERT INTO `users` VALUES ('admin', 'password', '', '', 'cprg352+ENTER_YOUR_EMAIL_HERE@gmail.com','abc123-321cba',1);
+INSERT INTO `users` VALUES ('admin', 'password', '', '', 'cprg352+ABC@gmail.com','abc123-321cba',1);
 
 INSERT INTO `users` VALUES ('admin2', 'password', 'Admin2', 'Admin2', 'cprg352+admin2@gmail.com','abc321-123cba' ,1);
 INSERT INTO `users` VALUES ('admin3', 'password', 'Admin3', 'Admin3', 'cprg352+admin3@gmail.com','123abc-cba321',1);
